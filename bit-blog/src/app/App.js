@@ -8,7 +8,7 @@ import { SinglePostItem } from "./main/posts/SinglePostItem"
 import { AboutPage } from './main/AboutPage'
 import { AuthorList } from './main/authors/AuthorList'
 import { SingleAuthor } from './main/authors/SingleAuthor';
-import { NewPost } from "./main/posts/newPost"
+import { NewPost } from "./main/posts/NewPost"
 
 
 class App extends Component {
@@ -23,14 +23,14 @@ class App extends Component {
           <Route path="/authors/:id" component={SingleAuthor} />
           <Route path="/about" component={AboutPage} />
           <Route path="/" component={PostList} />
-
         </Switch>
-
         <Footer />
       </div>
 
     )
   }
 }
+
+
 
 export default App;
