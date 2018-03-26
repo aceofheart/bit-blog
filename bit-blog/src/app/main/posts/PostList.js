@@ -1,21 +1,48 @@
 import React, { Component } from "react"
 import { SinglePost } from "./SinglePost"
 import { Link } from 'react-router-dom'
-
+import { postService } from '../../../service/PostService'
 
 export class PostList extends Component {
+
+    state = {
+        posts: []
+    }
+
+    componentDidMount() {
+        this.loadPosts();
+    }
+
+    loadPosts = () => {
+        postService.getData()
+            .then(myPosts => {
+                const firstTen = myPosts.slice(0, 9)
+
+                this.setState({
+                    posts: firstTen
+                })
+            })
+    }
+
+    renderPosts = () => {
+        if (this.state.posts.length) {
+            return (
+                this.state.posts.map(post => (
+                    <div key={post.id} className='row'>
+                        <Link to={`./posts/${post.id}`}><SinglePost title={post.title} body={post.body} /></Link>
+                    </div>
+                ))
+            )
+        }
+    }
+
+
     render() {
         return (
             <div className='container'>
-                <Link to='/posts/new' class="waves-effect waves-light btn-large">Create new post</Link>
+                <Link to='/posts/new' className="waves-effect waves-light btn-large">Create new post</Link>
                 <h4>Posts</h4>
-                <div className='row'>
-                    <Link to='/posts/1'> <SinglePost /> </Link>
-                    <Link to='/posts/2'> <SinglePost /> </Link>
-                    <Link to='/posts/3'> <SinglePost /> </Link>
-                    <Link to='/posts/4'> <SinglePost /> </Link>
-
-                </div>
+                {this.renderPosts()}
             </div>
         )
     }

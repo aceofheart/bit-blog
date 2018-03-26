@@ -2,10 +2,10 @@ import React from "react"
 
 export const SingleAuthorItem = (props) => {
     return (
-        <div class="col-12">
-            <div class="card blue-grey darken-1">
-                <div class="card-content white-text">
-                <h2>Name Surname</h2>
+        <div className="col-12">
+            <div className="card blue-grey darken-1">
+                <div className="card-content white-text">
+                    <h2>{props.name}</h2>
                 </div>
             </div>
         </div>

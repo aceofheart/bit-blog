@@ -1,6 +1,6 @@
 export class AuthorService {
-    static getData(authorID){
-        return fetch("https://jsonplaceholder.typicode.com/users/" + authorID)
-               .then(response => response.json())
+    static getData(authorID) {
+        return fetch("http://localhost:3004/users/" + authorID)
+            .then(response => response.json())
     }
 }

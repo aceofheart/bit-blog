@@ -1,30 +1,66 @@
-import React from "react";
-import {Link} from "react-router-dom"
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { postService } from '../../../service/PostService'
+import { AuthorName } from './AuthorName'
+import { authorsService } from "../../../service/AuthorsService"
+import { AuthorPosts } from "./AuthorPosts";
 
 
-export const SinglePostItem = (props) => {
+
+export class SinglePostItem extends Component {
+  state = {
+    post: null
+  }
+
+
+
+  componentDidMount = () => {
+    const id = this.props.match.params.id
+    postService.getPostDetails(id)
+      .then((post) => {
+        this.setState({
+          post
+        })
+      })
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    const id = nextProps.match.params.id
+    postService.getPostDetails(id)
+      .then((post) => {
+        this.setState({
+          post
+        })
+      })
+  }
+
+  render() {
+
+    if (!this.state.post) {
+      return <p>Loading...</p>
+    }
+
     return (
-    <div className="container"> 
-    <Link to="/">Back</Link>
-    <div class="col-12">
-      <div class="card blue-grey darken-1">
-        <div class="card-content white-text">
-          <span class="card-title">Post title</span>
-          <Link to="/authors/2">Author Name</Link>
-          <p>I am a very simple card. I am good at containing small bits of information.
-          I am convenient because I require little markup to use effectively.I am a very simple card. 
-          I am good at containing small bits of information.
-          I am convenient because I require little markup to use effectively</p>
+      // @author: selena
+      <div className="container">
+        <Link to="/">Back</Link>
+        <div className="col-12">
+          <div className="card blue-grey darken-1">
+            <div className="card-content white-text">
+              <span className="card-title">{this.state.post.title}</span>
+              {this.state.post && <AuthorName id={this.state.post.authorId} />}
+              <p>{this.state.post.body}</p>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    <hr/>
-    <p>3 more posts from same author</p>
-    <Link to="/posts/2">Title-1</Link><br/>
-    <Link to="/posts/1">Title-2</Link><br/>
-    <Link to="/posts/3">Title-3</Link>
-    </div>
-
-
+        <hr />
+        <p>3 more posts from same author</p>
+        <ul>
+          <AuthorPosts authorId={this.state.post.authorId} />
+        </ul>
+      </div >
     )
+  }
 }
+
+
